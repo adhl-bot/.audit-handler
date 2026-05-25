@@ -1,0 +1,59 @@
+#
+# Quick test audit - Windows Server detection for any server role.
+#
+# Derived from the 0.0.0 platform checks used by the unified Windows Server CIS audits:
+# - ProductName identifies Windows Server.
+# - Win32_ComputerSystem.DomainRole accepts 2, 3, 4, or 5:
+#   standalone server, member server, backup domain controller, or primary domain controller.
+#
+
+<check_type:"Windows" version:"2">
+<group_policy:"Quick Test Windows Server Any Role">
+
+<if>
+  <condition type:"AND">
+    <custom_item>
+      type        : REGISTRY_SETTING
+      description : "Windows Server platform check - ProductName"
+      value_type  : POLICY_TEXT
+      value_data  : ".*Windows[\s]+Server.*"
+      reg_key     : "HKLM\Software\Microsoft\Windows Nt\Currentversion"
+      reg_item    : "ProductName"
+      check_type  : CHECK_REGEX
+    </custom_item>
+
+    <custom_item>
+      type          : WMI_POLICY
+      description   : "Windows Server role check - standalone, member, or domain controller"
+      value_type    : POLICY_DWORD
+      value_data    : 2 || 3 || 4 || 5
+      wmi_namespace : "root/CIMV2"
+      wmi_request   : "select DomainRole from Win32_ComputerSystem"
+      wmi_attribute : "DomainRole"
+      wmi_key       : "DomainRole"
+    </custom_item>
+  </condition>
+
+  <then>
+    <report type:"PASSED">
+      description : "[0.0.0][MS][N/A][N/A][v0.0.0][L1] Quick Test Windows Server Any Role platform check"
+      info        : "The target was identified as Windows Server and its DomainRole is one of 2, 3, 4, or 5."
+      show_output : YES
+      reference   : "CONTROL_IG|IG3,CONTROL_INTERNAL_VERSION|0,CONTROL_CUSTOMER|true,CONTROL_CIS|false,CONTROL_MS_ONLY|false,CONTROL_DC_ONLY|false"
+    </report>
+
+    ## PROBAR CONTROLES AQUI
+  </then>
+
+  <else>
+    <report type:"WARNING">
+      description : "[0.0.0][MS][N/A][N/A][v0.0.0][L1] Quick Test Windows Server Any Role platform check"
+      info        : "Nessus did not identify the target as Windows Server with DomainRole 2, 3, 4, or 5."
+      show_output : YES
+      reference   : "CONTROL_IG|IG3,CONTROL_INTERNAL_VERSION|0,CONTROL_CUSTOMER|true,CONTROL_CIS|false,CONTROL_MS_ONLY|false,CONTROL_DC_ONLY|false"
+    </report>
+  </else>
+</if>
+
+</group_policy>
+</check_type>

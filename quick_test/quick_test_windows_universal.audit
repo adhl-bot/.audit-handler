@@ -1,0 +1,58 @@
+#
+# Quick test audit - Windows universal platform detection.
+#
+# Derived from the 0.0.0 platform checks used by the Windows CIS audits:
+# - Windows 11 checks HKLM\Software\Microsoft\Windows Nt\Currentversion\CurrentBuild.
+# - Windows Server checks HKLM\Software\Microsoft\Windows Nt\Currentversion\ProductName.
+#
+
+<check_type:"Windows" version:"2">
+<group_policy:"Quick Test Windows Universal">
+
+<if>
+  <condition type:"AND">
+    <custom_item>
+      type        : REGISTRY_SETTING
+      description : "Windows platform check - ProductName exists"
+      value_type  : POLICY_TEXT
+      value_data  : ".+"
+      reg_key     : "HKLM\Software\Microsoft\Windows Nt\Currentversion"
+      reg_item    : "ProductName"
+      check_type  : CHECK_REGEX
+    </custom_item>
+
+    <custom_item>
+      type        : REGISTRY_SETTING
+      description : "Windows platform check - CurrentBuild exists"
+      value_type  : POLICY_TEXT
+      value_data  : ".+"
+      reg_key     : "HKLM\Software\Microsoft\Windows Nt\Currentversion"
+      reg_item    : "CurrentBuild"
+      check_type  : CHECK_REGEX
+    </custom_item>
+  </condition>
+
+  <then>
+    <report type:"PASSED">
+      description : "[0.0.0][MS][N/A][N/A][v0.0.0][L1] Quick Test Windows Universal platform check"
+      info        : "The target exposes the standard Windows CurrentVersion registry keys used by the Windows CIS 0.0.0 applicability checks."
+      show_output : YES
+      reference   : "CONTROL_IG|IG3,CONTROL_INTERNAL_VERSION|0,CONTROL_CUSTOMER|true,CONTROL_CIS|false"
+    </report>
+
+
+    ## PROBAR CONTROLES AQUI
+  </then>
+
+  <else>
+    <report type:"WARNING">
+      description : "[0.0.0][MS][N/A][N/A][v0.0.0][L1] Quick Test Windows Universal platform check"
+      info        : "Nessus did not identify the target as a Windows system using ProductName and CurrentBuild from HKLM\\Software\\Microsoft\\Windows Nt\\Currentversion."
+      show_output : YES
+      reference   : "CONTROL_IG|IG3,CONTROL_INTERNAL_VERSION|0,CONTROL_CUSTOMER|true,CONTROL_CIS|false"
+    </report>
+  </else>
+</if>
+
+</group_policy>
+</check_type>

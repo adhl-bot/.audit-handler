@@ -1,0 +1,41 @@
+#
+# Quick test audit - Oracle Linux platform detection.
+#
+# Derived from the 0.0.0 platform check used by the Oracle Linux 8 CIS audit.
+#
+
+<check_type:"Unix">
+
+<if>
+  <condition type:"AND">
+    <custom_item>
+      type        : FILE_CONTENT_CHECK
+      description : "Oracle Linux platform check"
+      file        : "/etc/system-release"
+      regex       : "^[\\s]*Oracle[\\s]+Linux.*release"
+      expect      : "^[\\s]*Oracle[\\s]+Linux.*release"
+    </custom_item>
+  </condition>
+
+  <then>
+    <report type:"PASSED">
+      description : "[0.0.0][OL][N/A][N/A][v0.0.0][L1] Quick Test Oracle Linux platform check"
+      info        : "The target was identified as Oracle Linux using /etc/system-release."
+      show_output : YES
+      reference   : "CONTROL_IG|IG3,CONTROL_INTERNAL_VERSION|0,CONTROL_CUSTOMER|true,CONTROL_CIS|false"
+    </report>
+
+    ## PROBAR CONTROLES AQUI
+  </then>
+
+  <else>
+    <report type:"WARNING">
+      description : "[0.0.0][OL][N/A][N/A][v0.0.0][L1] Quick Test Oracle Linux platform check"
+      info        : "Nessus did not identify the target as Oracle Linux using /etc/system-release."
+      show_output : YES
+      reference   : "CONTROL_IG|IG3,CONTROL_INTERNAL_VERSION|0,CONTROL_CUSTOMER|true,CONTROL_CIS|false"
+    </report>
+  </else>
+</if>
+
+</check_type>
