@@ -69,3 +69,11 @@ Las reglas vigentes estan identificadas asi:
 - `AGENTS.md`: instrucciones de trabajo para Codex.
 - `DOCUMENTACION_PROYECTO_COMPLIANCE.md`: estructura Tenable.sc y relacion de scans/targets/audits.
 - `audits/v1/README.txt` y `audits/v2/README.txt`: notas historicas de version dentro de cada carpeta de audits.
+
+## Publicacion
+
+Para preparar y publicar este proyecto en GitHub, usar:
+
+```text
+GITHUB_SETUP.md
+```

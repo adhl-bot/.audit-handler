@@ -1,0 +1,18 @@
+# Temporales locales de validacion/export
+results.csv
+reports/
+tools/audit_identity_report.json
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Entornos locales
+.venv/
+venv/
+
+# Sistema/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

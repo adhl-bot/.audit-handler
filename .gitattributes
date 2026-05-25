@@ -1,0 +1,7 @@
+*.audit text
+*.md text
+*.txt text
+*.ps1 text
+*.py text
+*.pdf binary
+*.zip binary
