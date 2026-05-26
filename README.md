@@ -12,6 +12,9 @@ La linea de trabajo actual queda centrada exclusivamente en audits, reglas de na
 - `audits/v2/`: versiones disponibles de audits; actualmente contiene las versiones productivas de Windows Server.
 - `audits/audits_uniq_id/`: audits derivados con identificadores visibles enriquecidos.
 - `quick_test/`: audits ligeros para probar aplicabilidad o controles concretos rapidamente con menos checks.
+- `tools/validator.py`: validador canonico Python para decidir si un `.audit` esta listo para uso.
+- `tools/validator_config.json`: valores esperados por el validador para naming, familias y campos `reference`.
+- `tools/GUIA_VALIDATOR.md`: uso del validator y mantenimiento de `validator_config.json`.
 - `audit_rules.md`: reglas vigentes para crear, nombrar, enriquecer, correlacionar y modificar `.audit`.
 - `DOCUMENTACION_PROYECTO_COMPLIANCE.md`: estructura operativa Tenable.sc y audits.
 
@@ -50,6 +53,20 @@ audits/audits_uniq_id/
 ```
 
 La convencion vigente de `description` y `reference` esta definida exclusivamente en `audit_rules.md`.
+
+El filtro definitivo antes de usar o publicar audits enriquecidos es:
+
+```text
+python tools/validator.py
+```
+
+El parser del validator identifica bloques Tenable y conserva campos multilínea como `info`, `solution`, `cmd` o `expect` como un unico valor logico.
+
+Si se incorpora una familia, OS, version o rol nuevo al proyecto, primero debe actualizarse:
+
+```text
+tools/validator_config.json
+```
 
 ## Reglas de trabajo
 

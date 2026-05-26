@@ -1,10 +1,13 @@
 #
-# Quick test audit - Windows Server detection for any server role.
+# Quick test audit - Windows Server any-role template.
 #
 # Derived from the 0.0.0 platform checks used by the unified Windows Server CIS audits:
 # - ProductName identifies Windows Server.
 # - Win32_ComputerSystem.DomainRole accepts 2, 3, 4, or 5:
 #   standalone server, member server, backup domain controller, or primary domain controller.
+# - Role-specific controls must be placed under the matching role branch:
+#   DM -> DomainRole 2 || 3.
+#   DC -> DomainRole 4 || 5.
 #
 
 <check_type:"Windows" version:"2">
@@ -42,7 +45,65 @@
       reference   : "CONTROL_IG|IG3,CONTROL_INTERNAL_VERSION|0,CONTROL_CUSTOMER|true,CONTROL_CIS|false,CONTROL_MS_ONLY|false,CONTROL_DC_ONLY|false"
     </report>
 
-    ## PROBAR CONTROLES AQUI
+    # ============================================================
+    # Standalone / Member Server controls (DomainRole 2 || 3)
+    # Place DM controls here. They will only run for standalone or member servers.
+    # ============================================================
+    <if>
+      <condition type:"AND">
+        <custom_item>
+          type          : WMI_POLICY
+          description   : "Windows Server DM branch check - standalone or member server"
+          value_type    : POLICY_DWORD
+          value_data    : 2 || 3
+          wmi_namespace : "root/CIMV2"
+          wmi_request   : "select DomainRole from Win32_ComputerSystem"
+          wmi_attribute : "DomainRole"
+          wmi_key       : "DomainRole"
+        </custom_item>
+      </condition>
+
+      <then>
+        <report type:"PASSED">
+          description : "[0.0.1][MS][N/A][DM][v0.0.0][L1] Quick Test Windows Server DM role branch"
+          info        : "The target DomainRole is 2 or 3. Only DM controls in this branch are executed."
+          show_output : YES
+          reference   : "CONTROL_IG|IG3,CONTROL_INTERNAL_VERSION|0,CONTROL_CUSTOMER|true,CONTROL_CIS|false,CONTROL_MS_ONLY|true,CONTROL_DC_ONLY|false"
+        </report>
+
+        ## PROBAR CONTROLES DM AQUI
+      </then>
+    </if>
+
+    # ============================================================
+    # Domain Controller controls (DomainRole 4 || 5)
+    # Place DC controls here. They will only run for domain controllers.
+    # ============================================================
+    <if>
+      <condition type:"AND">
+        <custom_item>
+          type          : WMI_POLICY
+          description   : "Windows Server DC branch check - backup or primary domain controller"
+          value_type    : POLICY_DWORD
+          value_data    : 4 || 5
+          wmi_namespace : "root/CIMV2"
+          wmi_request   : "select DomainRole from Win32_ComputerSystem"
+          wmi_attribute : "DomainRole"
+          wmi_key       : "DomainRole"
+        </custom_item>
+      </condition>
+
+      <then>
+        <report type:"PASSED">
+          description : "[0.0.2][MS][N/A][DC][v0.0.0][L1] Quick Test Windows Server DC role branch"
+          info        : "The target DomainRole is 4 or 5. Only DC controls in this branch are executed."
+          show_output : YES
+          reference   : "CONTROL_IG|IG3,CONTROL_INTERNAL_VERSION|0,CONTROL_CUSTOMER|true,CONTROL_CIS|false,CONTROL_MS_ONLY|false,CONTROL_DC_ONLY|true"
+        </report>
+
+        ## PROBAR CONTROLES DC AQUI
+      </then>
+    </if>
   </then>
 
   <else>

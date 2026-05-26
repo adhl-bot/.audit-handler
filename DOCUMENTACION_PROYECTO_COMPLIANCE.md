@@ -238,7 +238,9 @@ Antes de modificar un audit:
 3. Comparar contra la version productiva de la familia.
 4. Aplicar el cambio minimo necesario.
 5. Validar compatibilidad Tenable/Nessus.
-6. Documentar el cambio funcional.
+6. Ejecutar `python tools/validator.py` como filtro final.
+7. Si se introduce una nueva familia o valor de naming, actualizar `tools/validator_config.json`.
+8. Documentar el cambio funcional.
 
 ## 14. Matriz de audits por scan
 

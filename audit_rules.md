@@ -333,6 +333,18 @@ Reglas:
 
 ## 11. Validaciones minimas despues de modificar audits
 
+El validador canonico del proyecto es Python y debe ejecutarse como filtro final:
+
+```text
+python tools/validator.py
+```
+
+Los valores aceptados por el validador para `OS`, `OS_VERSION`, `ROLE`, `BENCHMARK_VERSION`, `LEVEL`, familias conocidas y campos `CONTROL_*` se mantienen en:
+
+```text
+tools/validator_config.json
+```
+
 Despues de modificar o crear audits unique:
 
 1. Verificar que todos los controles reales tienen naming completo.

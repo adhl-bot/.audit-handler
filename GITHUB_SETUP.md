@@ -9,6 +9,8 @@ El repositorio debe incluir:
 - `audits/`
 - `quick_test/`
 - `tools/`
+- `tools/validator.py`
+- `tools/validator_config.json`
 - `README.md`
 - `AGENTS.md`
 - `audit_rules.md`
@@ -29,19 +31,19 @@ Estos temporales quedan excluidos por `.gitignore`.
 Desde la raiz del repositorio:
 
 ```powershell
-python .\tools\validate_audit_identity.py
+python .\tools\validator.py
 ```
 
 O con el Python empaquetado de Codex:
 
 ```powershell
-C:\Users\Alberto\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe .\tools\validate_audit_identity.py
+C:\Users\Alberto\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe .\tools\validator.py
 ```
 
 La validacion esperada es:
 
 ```text
-OK: validacion de identidad completada sin incidencias.
+OK: validator completado sin incidencias.
 ```
 
 ## Crear el repositorio remoto
