@@ -455,12 +455,17 @@ Si se ha tocado `validator_config.json`, revisar:
 - que Windows Server conserva la logica unificada `DM` y `DC`;
 - que Linux no hereda reglas Windows Server salvo instruccion explicita.
 
-## 8. Scripts Historicos
+## 8. Scripts Mantenidos
 
-`tools/validate_audit_identity.py` y scripts PowerShell previos quedan como compatibilidad historica o apoyo puntual.
-
-El filtro canonico para decidir si un `.audit` esta listo es:
+El unico script mantenido para validar `.audit` es:
 
 ```powershell
 python .\tools\validator.py
+```
+
+Los validadores historicos y scripts PowerShell previos se han retirado para evitar dobles criterios de validacion. Cualquier cambio nuevo debe hacerse en:
+
+```text
+tools/validator.py
+tools/validator_config.json
 ```
